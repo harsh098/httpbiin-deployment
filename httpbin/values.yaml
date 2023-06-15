@@ -1,0 +1,28 @@
+httpbinsvc:
+  port: 80
+  targetPort: 80
+
+autoScaler:
+  minReplicas: 1
+  maxReplicas: 3
+
+deployment:
+  image: kennethreitz/httpbin
+  maxSurge: 3
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+  ports:
+    - containerPort: "80"
+
+hosts:
+    - host: minikube.project.httpbin
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: httpbin-service
+              port: 
+                number: "80"
+

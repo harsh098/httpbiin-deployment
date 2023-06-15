@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin-deployment
+  labels:
+    app: httpbin
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.deployment.maxSurge }}
+  selector:
+    matchLabels:
+      app: httpbin
+  template:
+    metadata:
+      labels:
+        app: httpbin
+    spec:
+      containers:
+      - name: httpbin-container
+        image: {{ .Values.deployment.image }}
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: {{ default "500Mi" .Values.deployment.limits.memory | quote  }}
+            cpu: {{default "500m" .Values.deployment.limits.cpu | quote  }}
+        ports:
+          {{- range .Values.deployment.ports }}
+            - containerPort: {{ int .containerPort }}
+          {{ end -}}
