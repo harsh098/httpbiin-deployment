@@ -3,9 +3,7 @@ kind: Ingress
 metadata:
   name: httpbin-ingress
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    ingress.kubernetes.io/ssl-redirect: "false"
   labels:
     name: httpbin-ingress
     app: httpbin
